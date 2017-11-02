@@ -1,6 +1,9 @@
 import kata.tennis.model.Game;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 public class GameTest {
 
     @Test
@@ -82,6 +85,7 @@ public class GameTest {
 
         //then
         assert(aGame.getScore().equals("A - 40"));
+
     }
 
 }

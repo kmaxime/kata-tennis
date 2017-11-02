@@ -23,7 +23,7 @@ public class Game {
             {
                 _playerTwoScore--;
             }
-            else if(_playerOneScore == 3)
+            else if(_playerOneScore == 3 && _playerTwoScore != 3)
             {
                 _playerOneScore = 5;
             }
@@ -37,7 +37,7 @@ public class Game {
             {
                 _playerOneScore--;
             }
-            else if(_playerTwoScore == 3)
+            else if(_playerTwoScore == 3 && _playerOneScore != 3)
             {
                 _playerTwoScore = 5;
             }
