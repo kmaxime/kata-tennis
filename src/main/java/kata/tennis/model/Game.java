@@ -1,9 +1,5 @@
 package kata.tennis.model;
 
-import com.sun.tracing.dtrace.FunctionName;
-
-import java.awt.*;
-
 public class Game {
 
     private int _playerOneScore = 0;
@@ -48,16 +44,6 @@ public class Game {
         }
     }
 
-    public String getScore(String playerName) {
-        if (playerName.equals(_playerOneName))
-        {
-            return toScore(_playerOneScore);
-        }
-        else
-        {
-            return toScore(_playerTwoScore);
-        }
-    }
 
     public String toScore (int playerScore) {
         switch (playerScore) {

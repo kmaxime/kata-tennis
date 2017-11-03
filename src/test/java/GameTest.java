@@ -33,8 +33,7 @@ public class GameTest {
     }
 
     @Test
-    public void should_be_deuce_when_40_40()
-    {
+    public void should_be_deuce_when_40_40() {
         //given
         Game aGame = new Game("playerOne", "playerTwo");
 
@@ -45,10 +44,12 @@ public class GameTest {
         aGame.scores("playerTwo");
         aGame.scores("playerTwo");
         aGame.scores("playerTwo");
+        aGame.scores("playerTwo");
+        aGame.scores("playerOne");
 
 
         //then
-        assert(aGame.isDeuce());
+        assert (aGame.isDeuce());
     }
 
     @Test
@@ -69,8 +70,7 @@ public class GameTest {
     }
 
     @Test
-    public void should_return_A_when_score_is_4_and_deuce()
-    {
+    public void should_return_A_when_score_is_4_and_deuce() {
         //given
         Game aGame = new Game("playerOne", "playerTwo");
 
@@ -84,8 +84,7 @@ public class GameTest {
         aGame.scores("playerOne");
 
         //then
-        assert(aGame.getScore().equals("A - 40"));
+        assert (aGame.getScore().equals("A - 40"));
 
     }
-
 }
