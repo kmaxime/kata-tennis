@@ -1,6 +1,9 @@
-#KataTennis
+[![Build Status](https://travis-ci.org/kmaxime/kata-tennis.svg?branch=master)](https://travis-ci.org/kmaxime/kata-tennis)
+[![codecov](https://codecov.io/gh/kmaxime/kata-tennis/branch/master/graph/badge.svg)](https://codecov.io/gh/kmaxime/kata-tennis)
 
-##About this Kata
+# KataTennis
+
+## About this Kata
 
 This Kata is about implementing a simple tennis game. I came up with it while thinking about Wii tennis, where they have simplified tennis, so each set is one game.
 
