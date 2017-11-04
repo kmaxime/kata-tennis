@@ -53,7 +53,7 @@ public class GameTest {
     }
 
     @Test
-    public void should_win_when_scoring_when_40_and_not_deuce()
+    public void should_playerOne_win_when_scoring_when_40_and_not_deuce()
     {
         //given
         Game aGame = new Game("playerOne", "playerTwo");
@@ -67,6 +67,25 @@ public class GameTest {
 
         //then
         assert(aGame.isFinished());
+    }
+
+    @Test
+    public void should_playerTwo_win_when_scoring_when_40_and_not_deuce()
+    {
+        //given
+        Game aGame = new Game("playerOne", "playerTwo");
+
+        //when
+        aGame.scores("playerOne");
+        aGame.scores("playerOne");
+        aGame.scores("playerTwo");
+        aGame.scores("playerTwo");
+        aGame.scores("playerTwo");
+        aGame.scores("playerTwo");
+
+
+        //then
+        assert(aGame.getScore().equals("30 - winner"));
     }
 
     @Test
@@ -85,6 +104,26 @@ public class GameTest {
 
         //then
         assert (aGame.getScore().equals("A - 40"));
+
+    }
+
+    @Test
+    public void should_return_40_40_when_score_is_A_and_opponent_scores() {
+        //given
+        Game aGame = new Game("playerOne", "playerTwo");
+
+        //when
+        aGame.scores("playerOne");
+        aGame.scores("playerOne");
+        aGame.scores("playerOne");
+        aGame.scores("playerTwo");
+        aGame.scores("playerTwo");
+        aGame.scores("playerTwo");
+        aGame.scores("playerOne");
+        aGame.scores("playerTwo");
+
+        //then
+        assert (aGame.isDeuce());
 
     }
 }
