@@ -2,87 +2,79 @@ package kata.tennis.model;
 
 public class Game {
 
-    private int _playerOneScore = 0;
-    private int _playerTwoScore = 0;
-    private String _playerOneName = null;
-    private String _playerTwoName = null;
+    private ScoreValue playerOneScore;
+    private ScoreValue playerTwoScore;
+    private String playerOneName;
+    private String playerTwoName;
+    private String winner;
 
     public Game(String playerOne, String playerTwo) {
-        _playerOneName = playerOne;
-        _playerTwoName = playerTwo;
+        playerOneName = playerOne;
+        playerTwoName = playerTwo;
+        playerOneScore = ScoreValue.ZERO;
+        playerTwoScore = ScoreValue.ZERO;
     }
 
     public void scores(String playerName) {
-        if (playerName.equals(_playerOneName))
-        {
-            if(_playerTwoScore == 4)
-            {
-                _playerTwoScore--;
+        if (playerName.equals(playerOneName)) {
+            if (isWinnable(playerOneName)) {
+                finish(playerOneName);
+            } else if (playerTwoScore.equals(ScoreValue.ADVANTAGE)) {
+                this.playerTwoScore = playerTwoScore.previous();
+            } else {
+                this.playerOneScore = playerOneScore.next();
             }
-            else if(_playerOneScore == 3 && _playerTwoScore != 3)
-            {
-                _playerOneScore = 5;
-            }
-            else {
-                _playerOneScore++;
-            }
-        }
-        else if (playerName.equals(_playerTwoName))
-        {
-            if(_playerOneScore == 4)
-            {
-                _playerOneScore--;
-            }
-            else if(_playerTwoScore == 3 && _playerOneScore != 3)
-            {
-                _playerTwoScore = 5;
-            }
-            else
-            {
-                _playerTwoScore++;
+        } else if (playerName.equals(playerTwoName)) {
+            if (isWinnable(playerTwoName)) {
+                finish(playerTwoName);
+            } else if (playerOneScore.equals(ScoreValue.ADVANTAGE)) {
+                this.playerOneScore = playerOneScore.previous();
+            } else {
+                this.playerTwoScore = playerTwoScore.next();
             }
         }
     }
 
-
-    public String toScore (int playerScore) {
-        switch (playerScore) {
-            case 0:
-                return "0";
-            case 1:
-                return "15";
-            case 2:
-                return "30";
-            case 3:
-                return "40";
-            case 4:
-                return "A";
-
+    public boolean isWinnable(String playerName) {
+        if (playerName.equals(playerOneName)) {
+            if (((playerOneScore.equals(ScoreValue.FORTY) && (!playerTwoScore.equals(ScoreValue.ADVANTAGE)) && !playerTwoScore.equals(ScoreValue.FORTY))) ||
+                    (playerOneScore.equals(ScoreValue.ADVANTAGE))) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (playerName.equals(playerTwoName)) {
+            if (((playerTwoScore.equals(ScoreValue.FORTY) && (!playerOneScore.equals(ScoreValue.ADVANTAGE)) && !playerOneScore.equals(ScoreValue.FORTY))) ||
+                    (playerTwoScore.equals(ScoreValue.ADVANTAGE))) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        return "winner";
+        return false;
     }
 
-    public String getScore() {
-
-        return toScore(_playerOneScore)+" - "+toScore(_playerTwoScore);
+    public void finish(String playerName) {
+        winner = playerName;
     }
 
-    public boolean isDeuce() {
-        boolean cond_1 = _playerOneScore == _playerTwoScore;
-        boolean cond_2 = _playerOneScore == 3;
-        return cond_1 && cond_2;
+    public void setPlayerOneScore(ScoreValue playerOneScore) {
+        this.playerOneScore = playerOneScore;
     }
 
-    public boolean isFinished() {
-        boolean cond_1 = _playerOneScore == 5;
-        boolean cond_2 = _playerTwoScore == 5;
-        return cond_1 || cond_2;
+    public void setPlayerTwoScore(ScoreValue playerTwoScore) {
+        this.playerTwoScore = playerTwoScore;
     }
 
+    public ScoreValue getPlayerOneScore() {
+        return playerOneScore;
+    }
 
+    public ScoreValue getPlayerTwoScore() {
+        return playerTwoScore;
+    }
 
-
-
-
-
+    public String getWinner() {
+        return winner;
+    }
 }

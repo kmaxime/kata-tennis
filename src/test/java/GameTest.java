@@ -1,129 +1,73 @@
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import kata.tennis.model.Game;
+import kata.tennis.model.ScoreValue;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+@RunWith(JUnitParamsRunner.class)
 public class GameTest {
 
+    private Game aGame;
+    @Before
+    public void initializeGame()
+    {
+        aGame = new Game("playerOne", "playerTwo");
+    }
+
     @Test
-    public void should_return_15_0_when_playerOne_scores()
+    @Parameters ({"ZERO,ZERO,FIFTEEN,ZERO, playerOne",
+            "FORTY,ADVANTAGE,FORTY,FORTY,playerOne",
+            "ZERO,ZERO,ZERO,FIFTEEN,playerTwo",
+            "ADVANTAGE,FORTY,FORTY,FORTY,playerTwo"})
+    public void should_increment_score_when_scoring(ScoreValue inputPlayerOneScore,ScoreValue inputPlayerTwoScore, ScoreValue expectedPlayerOneScore, ScoreValue expectedPlayerTwoScore, String playerScoring)
     {
         //given
-        Game aGame = new Game("playerOne", "playerTwo");
+        aGame.setPlayerOneScore(inputPlayerOneScore);
+        aGame.setPlayerTwoScore(inputPlayerTwoScore);
 
         //when
-        aGame.scores("playerOne");
+        aGame.scores(playerScoring);
 
         //then
-        assert(aGame.getScore().equals("15 - 0"));
+        assertThat(aGame.getPlayerOneScore(), is(expectedPlayerOneScore));
+        assertThat(aGame.getPlayerTwoScore(), is(expectedPlayerTwoScore));
     }
 
     @Test
-    public void should_return_0_15_when_playerOne_scores()
-    {
+    @Parameters ({"FORTY,FORTY,false,false",
+                "ADVANTAGE,FORTY,true,false",
+                "FORTY,THIRTY,true,false",
+                "FORTY,ADVANTAGE,false,true",
+                "FIFTEEN,FORTY,false,true"})
+    public void should_be_winnable(ScoreValue inputPlayerOneScore,ScoreValue inputPlayerTwoScore, boolean expectedWinPlayerOne, boolean expectedWinPlayerTwo){
         //given
-        Game aGame = new Game("playerOne", "playerTwo");
+        aGame.setPlayerOneScore(inputPlayerOneScore);
+        aGame.setPlayerTwoScore(inputPlayerTwoScore);
 
         //when
-        aGame.scores("playerTwo");
+        boolean result1 = aGame.isWinnable("playerOne");
+        boolean result2 = aGame.isWinnable("playerTwo");
 
         //then
-        assert(aGame.getScore().equals("0 - 15"));
+        assertThat(result1, is(expectedWinPlayerOne));
+        assertThat(result2, is(expectedWinPlayerTwo));
     }
 
     @Test
-    public void should_be_deuce_when_40_40() {
+    public void should_player_finish(){
         //given
-        Game aGame = new Game("playerOne", "playerTwo");
+        String aPlayer = "player";
 
         //when
-        aGame.scores("playerOne");
-        aGame.scores("playerOne");
-        aGame.scores("playerOne");
-        aGame.scores("playerTwo");
-        aGame.scores("playerTwo");
-        aGame.scores("playerTwo");
-        aGame.scores("playerTwo");
-        aGame.scores("playerOne");
-
+        aGame.finish(aPlayer);
 
         //then
-        assert (aGame.isDeuce());
-    }
-
-    @Test
-    public void should_playerOne_win_when_scoring_when_40_and_not_deuce()
-    {
-        //given
-        Game aGame = new Game("playerOne", "playerTwo");
-
-        //when
-        aGame.scores("playerOne");
-        aGame.scores("playerOne");
-        aGame.scores("playerOne");
-        aGame.scores("playerOne");
-
-
-        //then
-        assert(aGame.isFinished());
-    }
-
-    @Test
-    public void should_playerTwo_win_when_scoring_when_40_and_not_deuce()
-    {
-        //given
-        Game aGame = new Game("playerOne", "playerTwo");
-
-        //when
-        aGame.scores("playerOne");
-        aGame.scores("playerOne");
-        aGame.scores("playerTwo");
-        aGame.scores("playerTwo");
-        aGame.scores("playerTwo");
-        aGame.scores("playerTwo");
-
-
-        //then
-        assert(aGame.getScore().equals("30 - winner"));
-    }
-
-    @Test
-    public void should_return_A_when_score_is_4_and_deuce() {
-        //given
-        Game aGame = new Game("playerOne", "playerTwo");
-
-        //when
-        aGame.scores("playerOne");
-        aGame.scores("playerOne");
-        aGame.scores("playerOne");
-        aGame.scores("playerTwo");
-        aGame.scores("playerTwo");
-        aGame.scores("playerTwo");
-        aGame.scores("playerOne");
-
-        //then
-        assert (aGame.getScore().equals("A - 40"));
-
-    }
-
-    @Test
-    public void should_return_40_40_when_score_is_A_and_opponent_scores() {
-        //given
-        Game aGame = new Game("playerOne", "playerTwo");
-
-        //when
-        aGame.scores("playerOne");
-        aGame.scores("playerOne");
-        aGame.scores("playerOne");
-        aGame.scores("playerTwo");
-        aGame.scores("playerTwo");
-        aGame.scores("playerTwo");
-        aGame.scores("playerOne");
-        aGame.scores("playerTwo");
-
-        //then
-        assert (aGame.isDeuce());
+        assertThat(aGame.getWinner(), is(aPlayer));
 
     }
 }
